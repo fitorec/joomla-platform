@@ -114,7 +114,6 @@ abstract class JMailHelper
 
 		// Check Length of domain
 		$domainLen = strlen($domain);
-
 		if ($domainLen < 1 || $domainLen > 255)
 		{
 			return false;
@@ -127,23 +126,19 @@ abstract class JMailHelper
 		 */
 		$allowed = 'A-Za-z0-9!#&*+=?_-';
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
-
 		if (!preg_match($regex, $local) || substr($local, -1) == '.')
 		{
 			return false;
 		}
 
-		// No problem if the domain looks like an IP address, ish
-		$regex = '/^[0-9\.]+$/';
-
-		if (preg_match($regex, $domain))
+		// No problem if the domain looks like an IPv4 and IPv6 address
+		if (@inet_pton($domain))
 		{
 			return true;
 		}
 
 		// Check Lengths
 		$localLen = strlen($local);
-
 		if ($localLen < 1 || $localLen > 64)
 		{
 			return false;
@@ -152,7 +147,6 @@ abstract class JMailHelper
 		// Check the domain
 		$domain_array = explode(".", rtrim($domain, '.'));
 		$regex = '/^[A-Za-z0-9-]{0,63}$/';
-
 		foreach ($domain_array as $domain)
 		{
 
@@ -176,7 +170,6 @@ abstract class JMailHelper
 
 			// Check for a dash at the end of the domain
 			$length = strlen($domain) - 1;
-
 			if (strpos($domain, '-', $length) === $length)
 			{
 				return false;
