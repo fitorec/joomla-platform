@@ -133,7 +133,6 @@ abstract class JMailHelper
 
 		// No problem if the domain looks like an IPv4 or IPv6 address
 		if (filter_var($domain, FILTER_VALIDATE_IP))
-		{
 			return true;
 		}
 
